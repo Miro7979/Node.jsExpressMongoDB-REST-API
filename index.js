@@ -7,9 +7,13 @@ const mongoose = require('mongoose');
 const app = express();
 
 // connect to MongoDB
-mongoose.connect('mongodb://localhost/people');
+mongoose.connect('mongodb://localhost/people',{ useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 
+// static files
+app.use(express.static('public'));
+
+// Bring in body parser
 app.use(bodyParser.json());
 // init routes
 app.use('/api', routes);

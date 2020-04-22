@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find People</title>
+    <link href="./style.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <h1 class="title">Finding Peoples</h1>
+    <div id="homepage">
+        <h2>Find your friend</h2>
+        <div id="persons"></div>
+    </div>
+    <!-- Create React Component -->
+    <script type="text/babel">
+     class Persons extends React.Component{
+         constructor(props){
+          super(props)
+          this.state = {
+            persons:[]
+          }
+}
+handleSubmit = e => {
+        e.preventDefault()
+        const lat = this.refs.lat.value
+        const lng = this.refs.lng.value
+        fetch('/api/people?lng=' + lng + '&lat=' + lat).then(data =>{
+           return data.json()
+        }).then(json =>{
+            this.setState({
+                persons:json
+            })
+            console.log(json);
+        })
+    }
+render(){
+    const persons = this.state.persons.map((person,index)=>{
+        return(
+            <li key={index}>
+               <span className={person.available}></span>
+               <span className="name">{person.name}</span>
+               <span className="rank">{person.status}</span>
+               <span className="dist">{Math.floor(person.dist.calculated / 1000)} km</span>    
+            </li>
+        )
+    })
+    return (
+            <div id="ninja-container">
+            <form id="search" onSubmit={this.handleSubmit}>
+                <label>Enter your Latitude:</label>
+                <input type="text" ref="lat" required />
+                <label>Enter your Longitude:</label>
+                <input type="text" ref="lng" required />
+                <input type="submit" />
+            </form>
+    <ul>
+        {persons}
+    </ul>
+    </div>
+    )
+}
+     }
+     ReactDOM.render(<Persons />, document.getElementById('persons'));
+        </script>
+</body>
+
+</html>
