@@ -16,6 +16,19 @@
         <h2>Find your friend</h2>
         <div id="persons"></div>
     </div>
+    <div id="weather">
+        <div class="location">
+            <h4 class="location-timezone">Timezone</h4>
+            <convas class="icon" width="100" height="100"></convas>
+        </div>
+        <div class="temperature">
+            <div class="degree-section">
+               <h2 class="temperature-degree">34</h2>
+               <span>&degC</span>
+            </div>
+            <div class="temperature-description">Its fucking cold</div>
+        </div>
+    </div>
     <!-- Create React Component -->
     <script type="text/babel">
      class Persons extends React.Component{
@@ -63,10 +76,19 @@ render(){
     </ul>
     </div>
     )
+  }
+};
+
+const weather = () => {
+  let apiPath = "http://api.openweathermap.org/data/2.5/weather?q=";
+  let city = "Malmo";
+  let apiKey = "&APPID=0e4352c7d27654631ee046f5129d4ede";
+  let units = "&units=metric";
 }
-     }
      ReactDOM.render(<Persons />, document.getElementById('persons'));
         </script>
+        <script src="weather.js"></script>
+        <script src="skycons.js"></script>
 </body>
 
 </html>
